@@ -1,0 +1,24 @@
+kind: HTTPScaledObject
+apiVersion: http.keda.sh/v1alpha1
+metadata:
+  name: competent-aditya-442adba573-scaler
+  namespace: apps-release
+spec:
+  hosts:
+    - cc1fbde45ead-in-south-01.mayson.dev
+  pathPrefixes:
+    - /us-east-2-backstractelb-315fcb-coll-764117a9b451420aa2685ae0fcdcc1dc/ # e.g. /infallible-naveen-... competent-aditya-442adba573/
+  scaleTargetRef:
+    name: competent-aditya-442adba573-depl
+    kind: Deployment
+    apiVersion: apps/v1
+    service: competent-aditya-442adba573-srv # e.g. coll-8a2a...-srv
+    port: 80
+  replicas:
+    min: 0
+    max: 10
+  scaledownPeriod: 1800 #inseconds
+  scalingMetric:
+    requestRate:
+      targetValue: 100
+      window: 1m
